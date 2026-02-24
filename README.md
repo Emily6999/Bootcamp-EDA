@@ -45,6 +45,7 @@ gender_analysis = (
     )
     .reset_index()
 )
+```
 
 <img width="1184" height="792" alt="image" src="https://github.com/user-attachments/assets/ead23507-8eb3-4ac3-a690-5a48667b0b79" />
 
