@@ -63,7 +63,63 @@ plt.ylabel('Default Rate')
 ```
 
 <img width="1184" height="792" alt="image" src="https://github.com/user-attachments/assets/ead23507-8eb3-4ac3-a690-5a48667b0b79" />
-Interpretation: The gender-based analysis shows a clear difference in default behavior. Female applicants account for 202,448 observations with a default rate of 6.999%, which is below the overall portfolio benchmark of 8.07%. In contrast, male applicants (105,059 observations) exhibit a higher default rate of 10.142%, exceeding the benchmark. This indicates that male applicants carry a moderately higher default risk compared to female applicants.
+
+### Interpretation
+The gender-based analysis shows a clear difference in default behavior. Female applicants account for 202,448 observations with a default rate of 6.999%, which is below the overall portfolio benchmark of 8.07%. In contrast, male applicants (105,059 observations) exhibit a higher default rate of 10.142%, exceeding the benchmark. This indicates that male applicants carry a moderately higher default risk compared to female applicants.
+
+## Education Degree
+```python
+edu_default = application.groupby('NAME_EDUCATION_TYPE')['TARGET'].mean().reset_index()
+sns.barplot(x='TARGET', y='NAME_EDUCATION_TYPE', data=edu_default)
+```
+<img width="1590" height="864" alt="image" src="https://github.com/user-attachments/assets/10c68316-c939-49fd-befe-8acd82eb5165" />
+
+### Interpretation
+
+## Credit Amount
+```python
+credit_tmp = application[["AMT_CREDIT", "TARGET"]].dropna().copy()
+credit_tmp["CREDIT_BIN"] = pd.qcut(credit_tmp["AMT_CREDIT"], q=10, duplicates="drop")
+credit_default = credit_tmp.groupby("CREDIT_BIN")["TARGET"].agg(["count", "mean"]).reset_index()
+credit_default = credit_default.rename(columns={"count": "customers", "mean": "default_rate"})
+credit_default["default_rate"] = credit_default["default_rate"] * 100
+display(credit_default)
+
+sns.lineplot(data=credit_default, x=credit_default.index, y="default_rate", marker="o")
+plt.title("Default Rate by AMT_CREDIT (Binned)")
+plt.ylabel("Default Rate (%)")
+plt.xlabel("Credit Amount Bin (low → high)")
+```
+<img width="1204" height="926" alt="image" src="https://github.com/user-attachments/assets/f7138ab4-d577-416c-b86e-105e357ca690" />
+
+### Interpretation
+
+##  EXT_SOURCE_3 (Credit Score Analysis)
+```python
+sns.kdeplot(data=application, x='EXT_SOURCE_3', hue='TARGET', fill=True)
+plt.title("Distribution of EXT_SOURCE_3 by TARGET")
+```
+<img width="1220" height="908" alt="image" src="https://github.com/user-attachments/assets/6737fabe-eb3a-48aa-a5eb-cac86c0df75c" />
+
+The figure below shows the distribution of `EXT_SOURCE_3` separated by default status (`TARGET`).
+
+- Blue curve (TARGET = 0): Non-default clients  
+- Orange curve (TARGET = 1): Default clients  
+- X-axis: External credit score  
+- Y-axis: Probability density  
+
+### Key Findings
+
+There is a clear separation between the two distributions:
+
+- Defaulted applicants are concentrated at **lower EXT_SOURCE_3 values**
+- Non-defaulted applicants are concentrated at **higher EXT_SOURCE_3 values**
+
+### Interpretation
+
+The limited overlap between the two curves suggests that `EXT_SOURCE_3` has strong discriminatory power. As the credit score increases, the probability of default declines significantly.
+
+Compared to demographic variables such as gender, `EXT_SOURCE_3` demonstrates substantially stronger predictive signal and is likely one of the primary drivers of default behavior in this dataset.
 
 ## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
@@ -113,4 +169,10 @@ pivot_age_ext2 = application.pivot_table(values='TARGET',index='age_bin',columns
 sns.heatmap(pivot_age_ext2, annot=True, fmt=".3f")
 ```
 <img width="1344" height="1134" alt="image" src="https://github.com/user-attachments/assets/07044424-ce86-4ca1-9f8d-cce1b2433ef2" />
+
+### Interpretation
+This figure is a heatmap showing default rates across combinations of: Age bins (rows) and EXT_SOURCE_2 bins (columns)
+   
+Each cell represents the default rate for that subgroup.
+
 The interaction between Age and External Risk Score (EXT_SOURCE) reveals a clear amplification effect in default risk. While both age and credit score are individually strong predictors, their combined impact is not merely additive. Younger applicants already exhibit higher baseline risk, and low external credit scores independently indicate elevated default probability. However, when these two risk factors occur together — young age combined with low EXT score — the default rate increases disproportionately, reaching nearly 18–19%, far above the portfolio benchmark. Conversely, older applicants with high external scores form an extremely low-risk segment, with default rates dropping to approximately 2–3%. This interaction suggests that effective credit risk segmentation must consider multiple variables jointly rather than relying on single-factor analysis. 
