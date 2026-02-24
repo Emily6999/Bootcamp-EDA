@@ -130,6 +130,24 @@ The limited overlap between the two curves suggests that `EXT_SOURCE_3` has stro
 
 Compared to demographic variables such as gender, `EXT_SOURCE_3` demonstrates substantially stronger predictive signal and is likely one of the primary drivers of default behavior in this dataset.
 
+## Income Level
+```python
+income_tmp = application[["AMT_INCOME_TOTAL", "TARGET"]].dropna().copy()
+income_tmp["INCOME_BIN"] = pd.qcut(income_tmp["AMT_INCOME_TOTAL"], q=10, duplicates="drop")
+
+income_default_num = income_tmp.groupby("INCOME_BIN")["TARGET"].agg(["count", "mean"]).reset_index()
+income_default_num = income_default_num.rename(columns={"count": "customers", "mean": "default_rate"})
+income_default_num["default_rate"] = income_default_num["default_rate"] * 100
+
+display(income_default_num)
+
+sns.lineplot(data=income_default_num, x=income_default_num.index, y="default_rate", marker="o")
+plt.title("Default Rate by AMT_INCOME_TOTAL (Binned)")
+plt.ylabel("Default Rate (%)")
+plt.xlabel("Income Bin (low → high)")
+```
+
+
 ## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
 Therefore, we will analyze both the sample size and default rate.
