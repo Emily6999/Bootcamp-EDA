@@ -74,6 +74,8 @@ sns.barplot(x='AGE', y='TARGET', data=age_default)
 ```
 <img width="1304" height="878" alt="image" src="https://github.com/user-attachments/assets/a4cd2f16-c68a-417f-bd9a-623c619b50a4" />
 
+### Interpretation
+
 ## Education Degree
 ```python
 edu_default = application.groupby('NAME_EDUCATION_TYPE')['TARGET'].mean().reset_index()
