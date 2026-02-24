@@ -205,9 +205,11 @@ plt.title("Correlation with TARGET (Including Historical Behavior)")
 ```
 <img width="1356" height="904" alt="image" src="https://github.com/user-attachments/assets/d0c905cf-994b-4b19-940c-f41f55a3cb5e" />
 
+<img width="1548" height="1360" alt="image" src="https://github.com/user-attachments/assets/8993d578-8b5a-4940-8604-80da82257754" />
+
 ### Interpretation
 We computed correlation coefficients between selected variables and TARGET.
-The strongest linear relationship is observed for EXT_SOURCE_2 (-0.16), confirming that external credit scores are important predictors of default risk.
+The strongest linear relationship is observed for EXT_SOURCE_1 2 3, confirming that external credit scores are important predictors of default risk.
 
 However, most other variables show weak linear correlation. This suggests that default risk is driven more by nonlinear patterns and interactions rather than simple linear relationships.
 
