@@ -157,6 +157,8 @@ sns.scatterplot(
 ax2.set_xlabel('Default Rate')
 ```
 <img width="1558" height="948" alt="image" src="https://github.com/user-attachments/assets/69b2dde6-ae30-4af2-ae62-0a708b6085ab" />
+
+### Interpretation
 This visualization presents both the sample size and the default rate for each income category. The gray horizontal bars represent the number of observations (count) within each income type, while the red dots indicate the corresponding default rate (mean of TARGET). Plotting both metrics together is essential because categorical variables often suffer from severe class imbalance. A category with only a handful of observations may exhibit an extremely high default rate simply due to random variation rather than genuine risk. For example, if a group contains only five borrowers and two of them default, the default rate would appear to be 40%, which may not be statistically reliable. By comparing the length of the gray bars with the position of the red dots, we can assess whether a high default rate is supported by sufficient sample size. In this case, large categories such as “Working,” “Commercial associate,” and “Pensioner” provide stable and interpretable estimates, whereas very small groups like “Maternity leave” or “Student” show volatile default rates that are likely driven by statistical noise rather than true underlying risk.
 
 ## Interaction Effect: Age × External Risk Score
