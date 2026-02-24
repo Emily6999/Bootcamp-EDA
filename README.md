@@ -193,6 +193,24 @@ REFUSED_BIN	        customers	default_rate
 
 ### Interpretation
 
+## Correlation with TARGET (Linear Relationship)
+```python
+target_hist_corr = hist_corr_matrix[["TARGET"]].sort_values("TARGET", ascending=False)
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(target_hist_corr,annot=True,cmap="BuGn",center=0,fmt=".2f")
+plt.title("Correlation with TARGET (Including Historical Behavior)")
+```
+<img width="1356" height="904" alt="image" src="https://github.com/user-attachments/assets/d0c905cf-994b-4b19-940c-f41f55a3cb5e" />
+
+### Interpretation
+We computed correlation coefficients between selected variables and TARGET.
+The strongest linear relationship is observed for EXT_SOURCE_2 (-0.16), confirming that external credit scores are important predictors of default risk.
+
+However, most other variables show weak linear correlation. This suggests that default risk is driven more by nonlinear patterns and interactions rather than simple linear relationships.
+
+Therefore, correlation analysis is used as a supplementary check, while binning analysis and interaction heatmaps provide more meaningful business insights.
+
 
 ## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
