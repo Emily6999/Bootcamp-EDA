@@ -236,7 +236,8 @@ plt.figure(figsize=(6, 5))
 sns.heatmap(target_hist_corr,annot=True,cmap="BuGn",center=0,fmt=".2f")
 plt.title("Correlation with TARGET (Including Historical Behavior)")
 ```
-<img width="1356" height="904" alt="image" src="https://github.com/user-attachments/assets/d0c905cf-994b-4b19-940c-f41f55a3cb5e" />
+
+<img width="1326" height="400" alt="image" src="https://github.com/user-attachments/assets/12edbc22-c989-4986-b3ed-9a352bcf763d" />
 
 <img width="1548" height="1360" alt="image" src="https://github.com/user-attachments/assets/8993d578-8b5a-4940-8604-80da82257754" />
 
