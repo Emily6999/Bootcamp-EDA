@@ -149,6 +149,8 @@ plt.xlabel("Income Bin (low → high)")
 ```
 
 
+### Interpretation
+
 ## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
 Therefore, we will analyze both the sample size and default rate.
