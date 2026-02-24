@@ -160,6 +160,8 @@ INCOME_BIN	               customers	default_rate
 8	(225000.0, 270000.0]	19957	7.040136
 9	(270000.0, 117000000.0]	27161	6.137477
 ```
+<img width="1208" height="904" alt="image" src="https://github.com/user-attachments/assets/733ed8cb-613f-4c78-8a47-61877a4325c2" />
+
 ### Interpretation
 
 ## Previous application status
