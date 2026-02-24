@@ -16,7 +16,39 @@ Specifically, we aim to:
 
 5. Detect meaningful interaction effects between key variables
 
-## 1. Income Type Risk Analysis
+## Baseline Default Rate
+Before analyzing risk factors, we first establish the overall benchmark default rate of the portfolio.
+```python
+# Overall default rate
+default_rate = application['TARGET'].mean()
+# Total observations
+total_count = application.shape[0]
+# Default count
+default_count = application['TARGET'].sum()
+```
+Output:
+
+```
+Total applications: 307511
+Number of defaults: 24825
+Overall default rate: 8.0729%
+```
+## 1. Gender Analysis
+```python
+gender_df = application[application['CODE_GENDER'] != 'XNA']
+gender_analysis = (
+    gender_df
+    .groupby('CODE_GENDER')
+    .agg(
+        count=('TARGET', 'count'),
+        default_rate=('TARGET', 'mean')
+    )
+    .reset_index()
+)
+
+<img width="1184" height="792" alt="image" src="https://github.com/user-attachments/assets/ead23507-8eb3-4ac3-a690-5a48667b0b79" />
+
+## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
 Therefore, we will analyze both the sample size and default rate.
 ```python
