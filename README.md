@@ -75,6 +75,7 @@ sns.barplot(x='AGE', y='TARGET', data=age_default)
 <img width="1304" height="878" alt="image" src="https://github.com/user-attachments/assets/a4cd2f16-c68a-417f-bd9a-623c619b50a4" />
 
 ### Interpretation
+The age-based analysis shows a clear downward trend in default risk as applicants get older. Applicants in the youngest age band (roughly 20–30) have the highest default rate (≈11–12%), and the rate steadily decreases across subsequent age groups—around ≈9–10% for 30–40, ≈7–8% for 40–50, ≈6% for 50–60, and ≈5% for 60–70. Overall, this suggests that younger borrowers carry materially higher default risk, while older applicants tend to be more reliable in repayment.
 
 ## Education Degree
 ```python
