@@ -197,6 +197,37 @@ REFUSED_BIN	        customers	default_rate
 
 ### Interpretation
 The previous-application analysis shows that applicants with a higher count of previously refused applications have a higher default rate, indicating that prior refusals are associated with high default risk.
+
+## Previous Application Count
+```python
+prev_count_tmp = app_hist[["PREV_APP_COUNT", "TARGET"]].dropna().copy()
+prev_count_tmp["PREV_APP_COUNT_BIN"] = pd.qcut(prev_count_tmp["PREV_APP_COUNT"], q=6, duplicates="drop")
+
+prev_count_default = prev_count_tmp.groupby("PREV_APP_COUNT_BIN")["TARGET"].agg(["count", "mean"]).reset_index()
+prev_count_default = prev_count_default.rename(columns={"count": "customers", "mean": "default_rate"})
+prev_count_default["default_rate"] = prev_count_default["default_rate"] * 100
+
+display(prev_count_default)
+
+sns.lineplot(data=prev_count_default, x=prev_count_default.index, y="default_rate", marker="o")
+plt.title("Default Rate by Previous Application Count (Binned)")
+plt.xlabel("PREV_APP_COUNT Bin (low → high)")
+plt.ylabel("Default Rate (%)")
+```
+```
+PREV_APP_COUNT_BIN	customers	default_rate
+0	(0.999, 2.0]	98332	     8.134687
+1	(2.0, 4.0]	    72936	     7.699901
+2	(4.0, 5.0]	    26638	     7.875967
+3	(5.0, 8.0]	    50242	     8.134628
+4	(8.0, 73.0]	    42909	     9.426927
+```
+<img width="1228" height="900" alt="image" src="https://github.com/user-attachments/assets/648ede99-b299-4c73-89c2-ed51562a1141" />
+
+### Interpretation
+We analyzed the relationship between the number of previous loan applications and current default risk.
+While the overall correlation is weak, customers in the highest bin of previous applications show a noticeably higher default rate (~9.4%). This suggests that repeated loan-seeking behavior may indicate financial stress or credit dependence. However, the relationship is not strictly linear. 
+
 ## Correlation with TARGET (Linear Relationship)
 ```python
 target_hist_corr = hist_corr_matrix[["TARGET"]].sort_values("TARGET", ascending=False)
