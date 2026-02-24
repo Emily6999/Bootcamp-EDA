@@ -162,6 +162,38 @@ INCOME_BIN	               customers	default_rate
 ```
 ### Interpretation
 
+## Previous application status
+```python
+refused_only = previous_application[previous_application["NAME_CONTRACT_STATUS"] == "Refused"]
+
+refused_count = refused_only.groupby("SK_ID_CURR").size().reset_index(name="PREV_REFUSED_COUNT")
+
+app_prev = application.merge(refused_count, on="SK_ID_CURR", how="left")
+app_prev["PREV_REFUSED_COUNT"] = app_prev["PREV_REFUSED_COUNT"].fillna(0)
+refused_tmp = app_prev[["PREV_REFUSED_COUNT", "TARGET"]].dropna().copy()
+refused_tmp["REFUSED_BIN"] = pd.qcut(refused_tmp["PREV_REFUSED_COUNT"], q=6, duplicates="drop")
+
+refused_default = refused_tmp.groupby("REFUSED_BIN")["TARGET"].agg(["count", "mean"]).reset_index()
+refused_default = refused_default.rename(columns={"count": "customers", "mean": "default_rate"})
+refused_default["default_rate"] = refused_default["default_rate"] * 100
+
+display(refused_default)
+
+sns.lineplot(data=refused_default, x=refused_default.index, y="default_rate", marker="o")
+plt.title("Default Rate by Previous Refused Count (Binned)")
+plt.ylabel("Default Rate (%)")
+plt.xlabel("Previous Refused Count Bin")
+```
+```
+REFUSED_BIN	        customers	default_rate
+0	(-0.001, 2.0]	  276490	  7.563384
+1	(2.0, 68.0]	      31021	      12.614036
+```
+<img width="1156" height="904" alt="image" src="https://github.com/user-attachments/assets/87f86f2d-ffc2-4730-92c7-be6f8ca0673e" />
+
+### Interpretation
+
+
 ## 2. Income Type Risk Analysis
 Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
 Therefore, we will analyze both the sample size and default rate.
