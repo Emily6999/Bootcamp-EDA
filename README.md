@@ -273,7 +273,6 @@ income_stats = (
 
 income_stats = income_stats.sort_values('count', ascending=False)
 fig, ax1 = plt.subplots()
-# 左轴：样本量
 sns.barplot(
     data=income_stats,
     x='count',
@@ -282,8 +281,6 @@ sns.barplot(
     ax=ax1
 )
 ax1.set_xlabel('Count')
-
-# 右轴：违约率
 ax2 = ax1.twiny()
 sns.scatterplot(
     data=income_stats,
