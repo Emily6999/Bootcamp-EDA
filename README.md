@@ -1,4 +1,57 @@
 # Bootcamp-EDA 
 Data bootcamp's EDA Activity
 
+## Introduction
+The objective of this analysis is to determine whether a client is likely to have payment difficulties and to identify the characteristics that increase default risk.
+
+Specifically, we aim to:
+
+1. Examine consumer attributes (e.g., age, income, employment type)
+
+2. Analyze credit-related features (e.g., external credit score, loan amount)
+
+3. Investigate historical behavior (e.g., previous application outcomes)
+
+4. Identify strong driver variables associated with higher default probability
+
+5. Detect meaningful interaction effects between key variables
+
+## 1. Income Type Risk Analysis
+Motivation： Income type may reflect employment stability and economic background. However, categorical variables often suffer from severe class imbalance, which may distort default rate estimation.
+Therefore, we will analyze both the sample size and default rate.
+```python
+income_stats = (
+    application
+    .groupby('NAME_INCOME_TYPE')['TARGET']
+    .agg(['count', 'mean'])
+    .reset_index()
+)
+
+income_stats = income_stats.sort_values('count', ascending=False)
+fig, ax1 = plt.subplots()
+# 左轴：样本量
+sns.barplot(
+    data=income_stats,
+    x='count',
+    y='NAME_INCOME_TYPE',
+    color='lightgray',
+    ax=ax1
+)
+ax1.set_xlabel('Count')
+
+# 右轴：违约率
+ax2 = ax1.twiny()
+sns.scatterplot(
+    data=income_stats,
+    x='mean',
+    y='NAME_INCOME_TYPE',
+    color='red',
+    s=100,
+    ax=ax2
+)
+ax2.set_xlabel('Default Rate')
+```
 <img width="1558" height="948" alt="image" src="https://github.com/user-attachments/assets/69b2dde6-ae30-4af2-ae62-0a708b6085ab" />
+This visualization presents both the sample size and the default rate for each income category. The gray horizontal bars represent the number of observations (count) within each income type, while the red dots indicate the corresponding default rate (mean of TARGET). Plotting both metrics together is essential because categorical variables often suffer from severe class imbalance. A category with only a handful of observations may exhibit an extremely high default rate simply due to random variation rather than genuine risk. For example, if a group contains only five borrowers and two of them default, the default rate would appear to be 40%, which may not be statistically reliable. By comparing the length of the gray bars with the position of the red dots, we can assess whether a high default rate is supported by sufficient sample size. In this case, large categories such as “Working,” “Commercial associate,” and “Pensioner” provide stable and interpretable estimates, whereas very small groups like “Maternity leave” or “Student” show volatile default rates that are likely driven by statistical noise rather than true underlying risk.
+
+##
