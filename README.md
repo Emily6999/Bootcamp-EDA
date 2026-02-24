@@ -75,7 +75,7 @@ sns.barplot(x='AGE', y='TARGET', data=age_default)
 <img width="1304" height="878" alt="image" src="https://github.com/user-attachments/assets/a4cd2f16-c68a-417f-bd9a-623c619b50a4" />
 
 ### Interpretation
-The age-based analysis shows a clear downward trend in default risk as applicants get older. Applicants in the youngest age band (roughly 20–30) have the highest default rate (≈11–12%), and the rate steadily decreases across subsequent age groups—around ≈9–10% for 30–40, ≈7–8% for 40–50, ≈6% for 50–60, and ≈5% for 60–70. Overall, this suggests that younger borrowers carry materially higher default risk, while older applicants tend to be more reliable in repayment.
+The age-based analysis shows a clear downward trend in default risk as applicants get older. Applicants in the youngest age band (roughly 20–30) have the highest default rate (11–12%), and the rate steadily decreases across subsequent age groups—around 9–10% for 30–40, 7–8% for 40–50, 6% for 50–60, and 5% for 60–70. Overall, this suggests that younger borrowers carry materially higher default risk, while older applicants tend to be more reliable in repayment.
 
 ## Education Degree
 ```python
@@ -85,7 +85,7 @@ sns.barplot(x='TARGET', y='NAME_EDUCATION_TYPE', data=edu_default)
 <img width="1590" height="864" alt="image" src="https://github.com/user-attachments/assets/10c68316-c939-49fd-befe-8acd82eb5165" />
 
 ### Interpretation
-
+The chart indicates that applicants with lower education levels tend to have higher default rates, while default rates decrease as education level increases.
 ## Credit Amount
 ```python
 credit_tmp = application[["AMT_CREDIT", "TARGET"]].dropna().copy()
@@ -103,7 +103,7 @@ plt.xlabel("Credit Amount Bin (low → high)")
 <img width="1204" height="926" alt="image" src="https://github.com/user-attachments/assets/f7138ab4-d577-416c-b86e-105e357ca690" />
 
 ### Interpretation
-
+The binned credit-amount analysis shows a non-linear relationship: default rates rise from low to mid-range loan amounts (peaking around the middle bins) and then decline for the highest credit amounts, suggesting mid-sized loans carry higher default risk than very small or very large loans.
 ##  EXT_SOURCE_3 (Credit Score Analysis)
 ```python
 sns.kdeplot(data=application, x='EXT_SOURCE_3', hue='TARGET', fill=True)
@@ -163,7 +163,7 @@ INCOME_BIN	               customers	default_rate
 <img width="1208" height="904" alt="image" src="https://github.com/user-attachments/assets/733ed8cb-613f-4c78-8a47-61877a4325c2" />
 
 ### Interpretation
-
+The binned income analysis shows that default rates generally decrease as total income increases, with the highest default risk concentrated in the lower-to-mid income bins and the lowest default rates observed in the highest income bins.
 ## Previous application status
 ```python
 refused_only = previous_application[previous_application["NAME_CONTRACT_STATUS"] == "Refused"]
@@ -194,7 +194,7 @@ REFUSED_BIN	        customers	default_rate
 <img width="1156" height="904" alt="image" src="https://github.com/user-attachments/assets/87f86f2d-ffc2-4730-92c7-be6f8ca0673e" />
 
 ### Interpretation
-
+The previous-application analysis shows that applicants with a higher count of previously refused applications have a higher default rate, indicating that prior refusals are associated with high default risk.
 ## Correlation with TARGET (Linear Relationship)
 ```python
 target_hist_corr = hist_corr_matrix[["TARGET"]].sort_values("TARGET", ascending=False)
