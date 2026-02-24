@@ -33,7 +33,7 @@ Total applications: 307511
 Number of defaults: 24825
 Overall default rate: 8.0729%
 ```
-## 1. Gender Analysis
+## Gender Analysis
 ```python
 gender_df = application[application['CODE_GENDER'] != 'XNA']
 gender_analysis = (
@@ -66,6 +66,13 @@ plt.ylabel('Default Rate')
 
 ### Interpretation
 The gender-based analysis shows a clear difference in default behavior. Female applicants account for 202,448 observations with a default rate of 6.999%, which is below the overall portfolio benchmark of 8.07%. In contrast, male applicants (105,059 observations) exhibit a higher default rate of 10.142%, exceeding the benchmark. This indicates that male applicants carry a moderately higher default risk compared to female applicants.
+
+## Age Analysis
+```python
+age_default = application.groupby(pd.cut(application['AGE'], 5))['TARGET'].mean().reset_index()
+sns.barplot(x='AGE', y='TARGET', data=age_default)
+```
+<img width="1304" height="878" alt="image" src="https://github.com/user-attachments/assets/a4cd2f16-c68a-417f-bd9a-623c619b50a4" />
 
 ## Education Degree
 ```python
