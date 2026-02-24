@@ -16,6 +16,16 @@ Specifically, we aim to:
 
 5. Detect meaningful interaction effects between key variables
 
+## Brief Explanation of Variable Name
+Since some variable names from the Excel are a bit confusing, here are some brief explanation of mentioned variable names
+
+1. TARGET -> whether the applicant defaulted before (1=default / payment difficulty, 0=non-default)
+2. NAME_EDUCATION_TYPE-> education level
+3. AMT_INCOME_TOTAL -> reveal each applicant's income condition (total income)
+4. AMT_CREDIT-> requested loan/credit amount
+5. EXT_SOURCE 1 /EXT_SOURCE 2 / EXT_SOURcE 3 -> external risk score-like variables
+6. SK_ID_CURR -> current customer ID (used to connect to application data)
+
 ## Baseline Default Rate
 Before analyzing risk factors, we first establish the overall benchmark default rate of the portfolio.
 ```python
