@@ -1,5 +1,8 @@
 # Bootcamp-EDA 
 Data bootcamp's EDA Activity
+- Siye Li sl10962
+- Yuxin Bai yb2464
+- Lylian Li yl11924
 
 ## Introduction
 The objective of this analysis is to determine whether a client is likely to have payment difficulties and to identify the characteristics that increase default risk.
