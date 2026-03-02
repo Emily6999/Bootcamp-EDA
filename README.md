@@ -146,6 +146,48 @@ The limited overlap between the two curves suggests that `EXT_SOURCE_3` has stro
 
 Compared to demographic variables such as gender, `EXT_SOURCE_3` demonstrates substantially stronger predictive signal and is likely one of the primary drivers of default behavior in this dataset.
 
+## Loan Contract Type
+```python
+contract_tmp = application[["NAME_CONTRACT_TYPE", "TARGET"]].dropna().copy()
+contract_default = (
+    contract_tmp.groupby("NAME_CONTRACT_TYPE")["TARGET"]
+    .agg(["count", "mean"])
+    .reset_index()
+)
+contract_default = contract_default.rename(
+    columns={"count": "customers", "mean": "default_rate"}
+)
+contract_default["default_rate"] = contract_default["default_rate"] * 100
+display(contract_default)
+
+plt.figure(figsize=(7, 4))
+sns.barplot(
+    data=contract_default,
+    x="NAME_CONTRACT_TYPE",
+    y="default_rate",
+    palette="Blues_r"
+)
+
+plt.title("Default Rate by Loan Contract Type")
+plt.xlabel("Loan Contract Type")
+plt.ylabel("Default Rate (%)")
+plt.xticks(rotation=25)
+```
+```
+NAME_CONTRACT_TYPE	customers	default_rate
+0	Cash loans	      278232	8.345913
+1	Revolving loans	   29279	5.478329
+```
+<img width="1366" height="956" alt="image" src="https://github.com/user-attachments/assets/a235f852-a291-46ba-9446-3d873e9a22d5" />
+
+
+### Intepretattion
+Cash loans exhibit a higher default rate (8.35%) compared to revolving loans (5.48%).
+
+Although revolving loans represent a smaller portion of applications, their borrowers demonstrate lower default risk.
+
+Given that cash loans account for the majority of the portfolio, they contribute most significantly to overall credit risk exposure.
+
 ## Income Level
 ```python
 income_tmp = application[["AMT_INCOME_TOTAL", "TARGET"]].dropna().copy()
