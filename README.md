@@ -188,6 +188,64 @@ Although revolving loans represent a smaller portion of applications, their borr
 
 Given that cash loans account for the majority of the portfolio, they contribute most significantly to overall credit risk exposure.
 
+## Occupation Type
+To avoid instability from very small groups, occupations with fewer than 1,000 customers are excluded.
+We then rank occupations by default rate.
+```python
+# --- Default Rate by Occupation Type ---
+occ_tmp = application[["OCCUPATION_TYPE", "TARGET"]].dropna().copy()
+occ_default = (
+    occ_tmp.groupby("OCCUPATION_TYPE")["TARGET"]
+    .agg(["count", "mean"])
+    .reset_index()
+)
+
+occ_default = occ_default.rename(
+    columns={"count": "customers", "mean": "default_rate"}
+)
+occ_default["default_rate"] = occ_default["default_rate"] * 100
+occ_default = occ_default[occ_default["customers"] > 1000]
+occ_default = occ_default.sort_values("default_rate", ascending=False)
+
+plt.figure(figsize=(12, 6))
+sns.barplot(
+    data=occ_default,
+    x="OCCUPATION_TYPE",
+    y="default_rate",
+    palette="Reds_r"
+)
+
+plt.title("Default Rate by Occupation Type")
+plt.xlabel("Occupation Type")
+plt.ylabel("Default Rate (%)")
+plt.xticks(rotation=60, ha="right")
+```
+<img width="2092" height="1314" alt="image" src="https://github.com/user-attachments/assets/f1ce474f-6eac-4bf8-b418-58920f639aab" />
+
+### Key Findings
+- Low-skill laborers exhibit the highest default rate (~17%).
+
+- Drivers, waiters/barmen staff, and security staff also show elevated default risk (around 10–11%).
+
+- In contrast, Accountants, IT staff, Managers, and Core staff have significantly lower default rates (around 5–6%).
+
+- There is a clear gradient from lower-skilled/manual occupations to more professional/technical occupations.
+  
+### Interpretation
+Occupation type appears to be a strong socioeconomic risk driver.
+
+Higher default rates are concentrated among:
+- Lower-income or physically intensive occupations
+- Jobs with potentially unstable income patterns
+
+Lower default rates are observed among:
+- Professional roles
+- Technical staff
+- Managerial occupations
+
+From a risk modeling perspective, occupation type provides meaningful segmentation power and may help improve risk discrimination when combined with income and credit score variables.
+
+
 ## Income Level
 ```python
 income_tmp = application[["AMT_INCOME_TOTAL", "TARGET"]].dropna().copy()
