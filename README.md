@@ -246,6 +246,55 @@ Lower default rates are observed among:
 From a risk modeling perspective, occupation type provides meaningful segmentation power and may help improve risk discrimination when combined with income and credit score variables.
 
 
+## Family status
+```python
+# --- Default Rate by Family Status ---
+family_tmp = application[["NAME_FAMILY_STATUS", "TARGET"]].dropna().copy()
+family_default = (
+    family_tmp.groupby("NAME_FAMILY_STATUS")["TARGET"]
+    .agg(["count", "mean"])
+    .reset_index()
+)
+
+family_default = family_default.rename(
+    columns={"count": "customers", "mean": "default_rate"}
+)
+family_default["default_rate"] = family_default["default_rate"] * 100
+family_default = family_default.sort_values("default_rate", ascending=False)
+
+display(family_default)
+
+
+plt.figure(figsize=(10, 5))
+sns.barplot(
+    data=family_default,
+    x="NAME_FAMILY_STATUS",
+    y="default_rate",
+    palette="Reds"
+)
+
+plt.title("Default Rate by Family Status")
+plt.xlabel("Family Status")
+plt.ylabel("Default Rate (%)")
+plt.xticks(rotation=45, ha="right")
+```
+<img width="1756" height="1146" alt="image" src="https://github.com/user-attachments/assets/973109f7-1212-4829-9159-8f7a391eb167" />
+
+#### Key Findings:
+
+- **Civil marriage** and **Single / not married** applicants exhibit the highest default rates (around 10%).
+- **Separated** applicants also show elevated risk (~8%).
+- **Married** applicants have a comparatively lower default rate (~7–8%).
+- **Widowed** applicants display the lowest observed default rate (below 6%).
+
+#### Interpretation:
+
+The results suggest that marital stability may be associated with repayment behavior. Married applicants may benefit from dual income support or stronger financial stability, reducing credit risk. 
+
+In contrast, single or civil marriage applicants may face higher financial volatility, potentially increasing repayment risk.
+
+This highlights family status as a potentially informative segmentation variable in credit risk modeling.
+
 ## Income Level
 ```python
 income_tmp = application[["AMT_INCOME_TOTAL", "TARGET"]].dropna().copy()
